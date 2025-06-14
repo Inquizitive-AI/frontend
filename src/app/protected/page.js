@@ -1,12 +1,14 @@
-// app/protected/page.tsx
-import { auth } from '@clerk/nextjs/server';
+import { withAuth } from "@workos-inc/authkit-nextjs";
+
+// If you want to make an authenticated route, you *must* add it to the middlware.
 
 export default async function ProtectedPage() {
-  const { userId } = await auth();
+    // If the user isn't signed in, they will be automatically redirected to AuthKit
+    const { user } = await withAuth({ ensureSignedIn: true });
 
-  if (!userId) {
-    return <div>You must be signed in.</div>;
-  }
-
-  return <div>Welcome, user {userId}!</div>;
+    return (
+        <>
+            <p>Welcome back{user.firstName && `, ${user.firstName}`}</p>
+        </>
+    );
 }

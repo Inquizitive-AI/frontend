@@ -1,10 +1,14 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+import { authkitMiddleware } from "@workos-inc/authkit-nextjs";
 
-export default clerkMiddleware();
+// In middleware auth mode, each page is protected by default.
+// Exceptions are configured via the `unauthenticatedPaths` option.
+export default authkitMiddleware({
+    middlewareAuth: {
+        enabled: true,
+        unauthenticatedPaths: ["/"],
+    },
+});
 
-export const config = {
-  matcher: [
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-    "/(api|trpc)(.*)",
-  ],
-};
+// Match against pages that require authentication
+// Leave this out if you want authentication on every page in your application
+export const config = { matcher: ["/", "/account/:page*", "/protected"] };
