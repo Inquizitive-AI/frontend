@@ -72,6 +72,5 @@ jobs:
                   GITHUB_REPOSITORY: ${{ github.repository }}
               run: |
                   PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-                  COMMENT_BODY="✅ **Preview Deployment Successful!**  
-                  [View your live preview here](${PREVIEW_URL})"
+                  COMMENT_BODY="✅ **Preview Deployment Successful!**\n[View your live preview here](${PREVIEW_URL})"
                   gh pr comment "$PR_NUMBER" --body "$COMMENT_BODY"
