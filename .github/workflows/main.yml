@@ -39,6 +39,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Lint
+        run: npm run lint
+
       - name: Build with OpenNext
         run: npm run cf-build
 
@@ -72,9 +75,7 @@ jobs:
           GITHUB_EVENT_PATH: ${{ github.event_path }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
-            PR_NUMBER=$(jq --raw-output .number "$GITHUB_EVENT_PATH")
-            COMMENT_BODY="✅ **Preview Deployment Successful!**%0A[View your live preview here](${PREVIEW_URL})"
-            curl -s -H "Authorization: token $GITHUB_TOKEN" \
-                 -H "Content-Type: application/json" \
-                 -d "{\"body\": \"$COMMENT_BODY\"}" \
-                 "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments"
+          PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          COMMENT_BODY="✅ **Preview Deployment Successful!**  
+          [View your live preview here](${PREVIEW_URL})"
+          gh pr comment "$PR_NUMBER" --body "$COMMENT_BODY"
