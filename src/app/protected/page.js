@@ -1,6 +1,6 @@
 import { withAuth } from "@workos-inc/authkit-nextjs";
 
-// If you want to make an authenticated route, you *must* add it to the middlware.
+// If you want to make an authenticated route, you *must* add it to the middleware.
 
 export default async function ProtectedPage() {
     // If the user isn't signed in, they will be automatically redirected to AuthKit
